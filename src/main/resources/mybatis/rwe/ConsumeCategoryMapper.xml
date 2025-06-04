@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chason.rwe.dao.ConsumeCategoryDao">
+
+	<select id="get" resultType="com.chason.rwe.domain.ConsumeCategoryDO">
+		select `id`, `parent_id`, `user_id`, `category_name`, `category_type`, `bill_period`, `budget`, `deep_type`, `level`, `in_out`
+		from tbl_consume_category
+		where id = #{value}
+	</select>
+
+	<select id="getByType" resultType="com.chason.rwe.domain.ConsumeCategoryDO">
+		select `id`, `parent_id`, `user_id`, `category_name`, `category_type`, `bill_period`, `budget`, `deep_type`, `level`, `in_out`
+		from tbl_consume_category
+		where category_type = #{type}
+	</select>
+
+	<select id="list" resultType="com.chason.rwe.domain.ConsumeCategoryDO">
+		select `id`, `parent_id`, `user_id`, `category_name`, `category_type`, `bill_period`, `budget`, `deep_type`, `level`, `in_out`
+		from tbl_consume_category
+		<where>
+			<if test="userId != null"> and user_id = #{userId} </if>
+			<if test="parentId != null and parentId != ''"> and parent_id = #{parentId} </if>
+			<if test="categoryName != null and categoryName != ''"> and category_name = #{categoryName} </if>
+			<if test="categoryType != null and categoryType != ''"> and category_type = #{categoryType} </if>
+			<if test="billPeriod != null and billPeriod != ''"> and bill_period = #{billPeriod} </if>
+			<if test="budget != null and budget != ''"> and budget = #{budget} </if>
+			<if test="deepType != null and deepType != ''"> and deep_type = #{deepType} </if>
+			<if test="level != null and level != ''"> and `level` = #{level} </if>
+		    <if test="inOut != null and inOut != ''"> and in_out = #{inOut} </if>
+		</where>
+		order by category_name, category_type
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="count" resultType="int">
+		select count(*)
+		from tbl_consume_category
+		<where>
+			<if test="userId != null"> and user_id = #{userId} </if>
+			<if test="parentId != null and parentId != ''"> and parent_id = #{parentId} </if>
+			<if test="categoryName != null and categoryName != ''"> and category_name = #{categoryName} </if>
+			<if test="categoryType != null and categoryType != ''"> and category_type = #{categoryType} </if>
+			<if test="billPeriod != null and billPeriod != ''"> and bill_period = #{billPeriod} </if>
+			<if test="budget != null and budget != ''"> and budget = #{budget} </if>
+			<if test="deepType != null and deepType != ''"> and deep_type = #{deepType} </if>
+			<if test="level != null and level != ''"> and `level` = #{level} </if>
+			<if test="inOut != null and inOut != ''"> and in_out = #{inOut} </if>
+		</where>
+	</select>
+
+	<insert id="save" parameterType="com.chason.rwe.domain.ConsumeCategoryDO">
+		insert into tbl_consume_category
+		(
+			`user_id`,
+		 	`parent_id`,
+			`category_name`,
+			`category_type`,
+			`bill_period`,
+		 	`budget`,
+			`deep_type`,
+		 	`level`,
+		 	`in_out`
+		)
+		values
+			(
+				#{userId},
+			 	#{parentId},
+				#{categoryName},
+				#{categoryType},
+				#{billPeriod},
+			 	#{budget},
+				#{deepType},
+			 	#{level},
+			 	#{inOut}
+			)
+	</insert>
+
+	<update id="update" parameterType="com.chason.rwe.domain.ConsumeCategoryDO">
+		update tbl_consume_category
+		<set>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+		    <if test="parentId != null">`parent_id` = #{parentId}, </if>
+			<if test="categoryName != null">`category_name` = #{categoryName}, </if>
+			<if test="categoryType != null">`category_type` = #{categoryType}, </if>
+			<if test="billPeriod != null">`bill_period` = #{billPeriod}, </if>
+		    <if test="budget != null">`budget` = #{budget}, </if>
+			<if test="deepType != null">`deep_type` = #{deepType}, </if>
+			<if test="level != null">`level` = #{level}, </if>
+			<if test="inOut != null">`in_out` = #{inOut} </if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<update id="updateCategoryName" parameterType="map">
+		update tbl_consume_category
+		<set>
+			`category_name` = #{newName}
+		</set>
+		where category_name = #{oldName}
+	</update>
+
+	<delete id="remove">
+		delete from tbl_consume_category where id = #{value}
+	</delete>
+
+	<delete id="removeCategory">
+		delete from tbl_consume_category where category_name = #{categoryName}
+	</delete>
+
+
+	<delete id="batchRemove">
+		delete from tbl_consume_category where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

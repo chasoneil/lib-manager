@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chason.rwe.dao.TradeDao">
+
+	<select id="get" resultType="com.chason.rwe.domain.TradeDO">
+		select `order_id`,`trade_time`,`trade_type`,`trade_obj`,`obj_account`,`product`,`in_out`,`amount`,`pay_type`,`trade_status`,`seller_order_id`,`trade_comment`,`platform`,`create_user_id`, `category_id`, `checked` from tbl_trade where order_id = #{value}
+	</select>
+
+	<select id="list" resultType="com.chason.rwe.domain.TradeDO">
+		select `order_id`,`trade_time`,`trade_type`,`trade_obj`,`obj_account`,`product`,`in_out`,`amount`,`pay_type`,`trade_status`,`seller_order_id`,`trade_comment`,`platform`,`create_user_id`, `category_id`, `checked` from tbl_trade
+        <where>
+			<if test="orderId != null and orderId != ''"> and order_id = #{orderId} </if>
+			<if test="tradeTime != null and tradeTime != ''"> and trade_time = #{tradeTime} </if>
+			<if test="tradeType != null and tradeType != ''">
+				AND trade_type LIKE CONCAT(CONCAT('%',#{tradeType},'%'))
+			</if>
+			<if test="tradeObj != null and tradeObj != ''">
+				OR trade_obj LIKE CONCAT(CONCAT('%',#{tradeObj},'%'))
+			</if>
+			<if test="objAccount != null and objAccount != ''"> and obj_account = #{objAccount} </if>
+			<if test="product != null and product != ''">
+		        OR product LIKE CONCAT(CONCAT('%',#{product},'%'))
+			</if>
+			<if test="inOut != null and inOut != ''"> and in_out = #{inOut} </if>
+			<if test="amount != null and amount != ''"> and amount = #{amount} </if>
+            <if test="payType != null and payType != ''"> and pay_type = #{payType} </if>
+            <if test="tradeStatus != null and tradeStatus != ''"> and trade_status = #{tradeStatus} </if>
+            <if test="sellerOrderId != null and sellerOrderId != ''"> and seller_order_id = #{sellerOrderId} </if>
+			<if test="platform != null and platform != ''"> and platform = #{platform} </if>
+			<if test="createUserId != null and createUserId != ''"> and create_user_id = #{createUserId} </if>
+			<if test="categoryId != null and categoryId != ''"> and category_id = #{categoryId} </if>
+			<if test="checked != null and checked != ''"> and checked = #{checked} </if>
+		</where>
+		order by trade_time, order_id
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="getTradeRange" resultType="com.chason.rwe.domain.TradeDO">
+		select `order_id`,`trade_time`,`trade_type`,`in_out`,`amount`,`trade_status`,`create_user_id`, `category_id`, `checked` from tbl_trade
+		<where>
+			<if test="orderId != null and orderId != ''"> and order_id = #{orderId} </if>
+			<if test="tradeTime != null and tradeTime != ''"> and trade_time = #{tradeTime} </if>
+			<if test="product != null and product != ''"> and product = #{product} </if>
+			<if test="inOut != null and inOut != ''"> and in_out = #{inOut} </if>
+			<if test="amount != null and amount != ''"> and amount = #{amount} </if>
+			<if test="payType != null and payType != ''"> and pay_type = #{payType} </if>
+			<if test="tradeStatus != null and tradeStatus != ''"> and trade_status = #{tradeStatus} </if>
+			<if test="createUserId != null and createUserId != ''"> and create_user_id = #{createUserId} </if>
+			<if test="categoryId != null and categoryId != ''"> and category_id = #{categoryId} </if>
+			<if test="checked != null and checked != ''"> and checked = #{checked} </if>
+		    AND `trade_time` between #{startTime} AND #{endTime}
+		</where>
+		order by trade_time, order_id
+	</select>
+
+
+ 	<select id="count" resultType="int">
+		select count(*) from tbl_trade
+		  <where>
+			  <if test="orderId != null and orderId != ''"> and order_id = #{orderId} </if>
+			  <if test="tradeTime != null and tradeTime != ''"> and trade_time = #{tradeTime} </if>
+			  <if test="tradeType != null and tradeType != ''">
+				  AND trade_type LIKE CONCAT(CONCAT('%',#{tradeType},'%'))
+			  </if>
+			  <if test="tradeObj != null and tradeObj != ''">
+				  OR trade_obj LIKE CONCAT(CONCAT('%',#{tradeObj},'%'))
+			  </if>
+			  <if test="objAccount != null and objAccount != ''"> and obj_account = #{objAccount} </if>
+			  <if test="product != null and product != ''">
+				  OR product LIKE CONCAT(CONCAT('%',#{product},'%'))
+			  </if>
+			  <if test="inOut != null and inOut != ''"> and in_out = #{inOut} </if>
+			  <if test="amount != null and amount != ''"> and amount = #{amount} </if>
+			  <if test="payType != null and payType != ''"> and pay_type = #{payType} </if>
+			  <if test="tradeStatus != null and tradeStatus != ''"> and trade_status = #{tradeStatus} </if>
+			  <if test="sellerOrderId != null and sellerOrderId != ''"> and seller_order_id = #{sellerOrderId} </if>
+			  <if test="platform != null and platform != ''"> and platform = #{platform} </if>
+			  <if test="createUserId != null and createUserId != ''"> and create_user_id = #{createUserId} </if>
+			  <if test="categoryId != null and categoryId != ''"> and category_id = #{categoryId} </if>
+			  <if test="checked != null and checked != ''"> and checked = #{checked} </if>
+		  </where>
+	</select>
+
+	<insert id="save" parameterType="com.chason.rwe.domain.TradeDO">
+		insert into tbl_trade
+		(
+			`order_id`,
+			`trade_time`,
+			`trade_type`,
+			`trade_obj`,
+			`obj_account`,
+			`product`,
+			`in_out`,
+			`amount`,
+			`pay_type`,
+            `trade_status`,
+            `seller_order_id`,
+            `trade_comment`,
+		 	`platform`,
+		 	`create_user_id`,
+		 	`category_id`,
+		 	`checked`
+		)
+		values
+		(
+			#{orderId},
+			#{tradeTime},
+			#{tradeType},
+			#{tradeObj},
+			#{objAccount},
+			#{product},
+			#{inOut},
+			#{amount},
+			#{payType},
+            #{tradeStatus},
+            #{sellerOrderId},
+            #{tradeComment},
+		 	#{platform},
+		 	#{createUserId},
+		 	#{categoryId},
+		 	#{checked}
+		)
+	</insert>
+
+	<insert id="batchSave" parameterType="java.util.List">
+		insert into tbl_trade
+		(
+			`order_id`,
+			`trade_time`,
+			`trade_type`,
+			`trade_obj`,
+			`obj_account`,
+			`product`,
+			`in_out`,
+			`amount`,
+			`pay_type`,
+            `trade_status`,
+            `seller_order_id`,
+            `trade_comment`,
+			`platform`,
+		  	`create_user_id`,
+		 	`category_id`,
+		 	`checked`
+		)
+		values
+		<foreach collection="list" item="trade" separator=",">
+			(
+				#{trade.orderId},
+				#{trade.tradeTime},
+				#{trade.tradeType},
+				#{trade.tradeObj},
+				#{trade.objAccount},
+				#{trade.product},
+				#{trade.inOut},
+				#{trade.amount},
+				#{trade.payType},
+				#{trade.tradeStatus},
+				#{trade.sellerOrderId},
+				#{trade.tradeComment},
+				#{trade.platform},
+			 	#{trade.createUserId},
+			 	#{trade.categoryId},
+			 	#{trade.checked}
+			)
+		</foreach>
+	</insert>
+
+	<update id="update" parameterType="com.chason.rwe.domain.TradeDO">
+		update tbl_trade
+		<set>
+			<if test="orderId != null">`order_id` = #{orderId}, </if>
+			<if test="tradeTime != null">`trade_time` = #{tradeTime}, </if>
+			<if test="tradeType != null">`trade_type` = #{tradeType}, </if>
+			<if test="tradeObj != null">`trade_obj` = #{tradeObj}, </if>
+			<if test="objAccount != null">`obj_account` = #{objAccount}, </if>
+			<if test="product != null">`product` = #{product}, </if>
+			<if test="inOut != null">`in_out` = #{inOut}, </if>
+            <if test="amount != null">`amount` = #{amount}, </if>
+            <if test="payType != null">`pay_type` = #{payType}, </if>
+            <if test="tradeStatus != null">`trade_status` = #{tradeStatus}, </if>
+			<if test="sellerOrderId != null">`seller_order_id` = #{sellerOrderId}, </if>
+			<if test="tradeComment != null">`trade_comment` = #{tradeComment}, </if>
+			<if test="platform != null">`platform` = #{platform}, </if>
+			<if test="createUserId != null">`create_user_id` = #{createUserId}, </if>
+		    <if test="categoryId != null">`category_id` = #{categoryId}, </if>
+			<if test="checked != null">`checked` = #{checked} </if>
+		</set>
+		where order_id = #{orderId}
+	</update>
+
+	<delete id="remove">
+		delete from tbl_trade where order_id = #{value}
+	</delete>
+
+	<delete id="batchRemove">
+		delete from tbl_trade where order_id in
+		<foreach item="orderId" collection="array" open="(" separator="," close=")">
+			#{orderId}
+		</foreach>
+	</delete>
+</mapper>
+

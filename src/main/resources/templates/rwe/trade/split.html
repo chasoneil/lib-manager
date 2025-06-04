@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<div class="alert alert-success">
+							当前账单的剩余可拆分金额为：<span id="remainAmount" class="alert-link" th:text="${trade.amount}"></span>
+						</div>
+						<form class="form-horizontal m-t" id="signupForm">
+							<input id="orderId" name="orderId" th:value="${trade.orderId}" type="hidden">
+							<input id="amount" th:value="${trade.amount}" type="hidden">
+							<div class="form-group auto-line" id="split-form">
+								<label class="col-sm-2 control-label">商品说明：</label>
+								<div class="col-sm-2">
+									<input id="product_1" class="form-control" th:value="${trade.product}" type="text">
+								</div>
+								<label class="col-sm-1 control-label">金额：</label>
+								<div class="col-sm-2">
+									<input id="amount_1" class="form-control" onchange="calculateTotal()" th:value="${trade.amount}" type="text">
+								</div>
+								<label class="col-sm-1 control-label">备注：</label>
+								<div class="col-sm-2">
+									<input id="tradeComment_1" class="form-control" th:value="${trade.tradeComment}" type="text">
+								</div>
+								<div class="col-sm-2">
+									<button class="btn btn-success" type="button" id="addRow">
+										<i class="fa fa-plus" aria-hidden="true"></i> 新增
+									</button>
+								</div>
+							</div>
+							<div id="auto-line"></div>
+							<div class="hr-line-dashed"></div>
+							<div class="form-group">
+								<div class="col-sm-4 col-sm-offset-2">
+									<button class="btn btn-primary" onclick="doSplit()" >提交</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/rwe/trade/split.js"></script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<div class="col-sm-3" th:each="lesson, page:${lessons}" xmlns:th="http://www.w3.org/1999/xhtml"
+     xmlns:th="http://www.w3.org/1999/xhtml" xmlns:shiro="http://www.w3.org/1999/xhtml">
+    <div class="ibox ibox-body">
+
+        <div class="ibox-title">
+            <a shiro:hasPermission="rwe:lesson:delete" class="btn btn-xs btn-rounded btn-danger pull-right"
+               style="margin-left: 5px" th:onclick="'javascript:remove(\'' + ${lesson.lessonId} + '\');'">
+                <i class="fa fa-trash"></i> 删除
+            </a>
+            <a class="btn btn-xs btn-rounded btn-success pull-right" th:onclick="'javascript:addWord(\''+ ${lesson.lessonId} +'\');'">
+                <i class="fa fa-plus"></i> 添加单词
+            </a>
+
+            <h5 th:text="${lesson.lesson}">课程名</h5>
+            <span style="margin-left: 10px;" class="label label-primary" th:if="${lesson.learned eq 1}">已学习</span>
+            <span style="margin-left: 10px;" class="label label-warning" th:if="${lesson.learned eq 0}">未学习</span>
+
+        </div>
+
+        <div class="ibox-content" align="center">
+            <p><i class="fa fa-calendar"></i> 课程单词数：<a th:text="${lesson.count}">0</a>
+            </p>
+            <p><i class="fa fa-check-square-o"></i> 已学习单词：<a th:text="${lesson.learned}">0</a>
+            </p>
+            <p><i class="fa fa-check-square"></i> 已掌握单词：<a th:text="${lesson.passed}"></a>
+            </p>
+            <p><i class="fa fa-clock-o"></i> 上次学习时间：
+                <a th:if="${lesson.lastLearnTime != ''}" th:text="${lesson.lastLearnTime}"></a>
+                <a th:if="${lesson.lastLearnTime == ''}" th:text="暂未学习">暂未学习</a>
+            </p>
+            <br><br>
+            <a class="btn btn-sm btn-rounded btn-success">点击学习</a>
+
+
+        </div>
+    </div>
+</div>
+
+
+

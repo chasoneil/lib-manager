@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>家庭助手</title>
+
+    <style>
+        .clock {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 4rem;
+            color: #ecf0f1;
+            background-color: #979ca1;
+            margin-left: 40px;
+            width: 80%;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .date {
+            font-size: 24px;
+            color: #666;
+        }
+    </style>
+
+    <meta name="keywords" content="家庭助手">
+
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+
+    <!-- echarts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.1.2/echarts.min.js"></script>
+
+    <!-- calendar -->
+    <link href="/css/plugins/fullcalendar/fullcalendar.css" rel="stylesheet">
+    <link href="/css/plugins/fullcalendar/fullcalendar.print.css" rel="stylesheet">
+
+    <link href="/css/plugins/chosen/chosen.css" rel="stylesheet">
+
+    <!-- Morris -->
+    <link href="/css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet">
+    <link href="/css/animate.css" rel="stylesheet">
+    <link href="/css/style.css?v=4.1.0" rel="stylesheet">
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content">
+
+    <!-- 头部 展示 当前时钟 月份选择框 收入支出年月信息 -->
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="clock" id="clock"></div>
+        </div>
+        <div class="col-sm-6">
+            <div class="row" style="padding-top: 40px;">
+                <div class="col-sm-4">
+                    <select data-placeholder="选择消费人..." multiple class="chosen-select"
+                            style="width:220px;" tabindex="2">
+                        <option value="">选择消费人</option>
+                    </select>
+                </div>
+                <div class="col-sm-4">
+                    <select data-placeholder="选择月份..." multiple class="chosen-select"
+                            style="width:220px;" tabindex="2">
+                        <option value="">选择月份</option>
+                    </select>
+                </div>
+                <div class="col-sm-4">
+                    年总支出：<span id="year-spent"></span><br/>
+                    年总收入：<span id="year-income"></span><br/>
+                    月总支出：<span id="month-spent"></span><br/>
+                    月总收入：<span id="month-income"></span><br/>
+                    当前结余：
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-sm-2">
+            <span class="pull-right text-right">
+                <a class="btn btn-xs btn-primary" onclick="window.location.href='/index_v1';">我的账单</a>
+            </span>
+        </div>
+    </div>
+
+    <!-- 日历和图表  -->
+    <div class="row" style="margin-top: 50px;">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+
+                <div class="row" style="height: 500px">
+                    <div class="col-sm-4">
+                        <div id="calendar" style="padding: 10px;"></div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div id="pieChart1" class="chart" style="height: 450%;margin-top: 50px;"></div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div id="pieChart2" class="chart" style="height: 450%; margin-right: 50px; margin-top: 50px;"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <span class="label label-danger pull-right">支出</span>
+                    <h5>今年总支出（元）</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins">85,400</h1>
+                    <div class="stat-percent font-bold text-navy">20% <i class="fa fa-level-up"></i>
+                    </div>
+                    <small>今年支出有点高哦</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <span class="label label-primary pull-right">收入</span>
+                    <h5>今年总收入（元）</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins">20,600</h1>
+                    <div class="stat-percent font-bold text-info">40% <i class="fa fa-level-up"></i>
+                    </div>
+                    <small>今年收入有点低哦</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <span class="label label-primary pull-right">单词数</span>
+                    <h5>背单词数</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins">20</h1>
+                    <div class="stat-percent font-bold text-info">40% <i class="fa fa-level-up"></i>
+                    </div>
+                    <small>Target: 雅思 7 分</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script src="/js/jquery.min.js?v=2.1.4"></script>
+<script src="/js/bootstrap.min.js?v=3.3.6"></script>
+
+<script src="/js/content.js?v=1.0.0"></script>
+
+<!-- jQuery UI -->
+<script src="/js/plugins/jquery-ui/jquery-ui.min.js"></script>
+
+<script src="/js/appjs/index/index_v5.js"></script>
+<script src="/js/plugins/chosen/chosen.jquery.js"></script>
+<!-- Full Calendar -->
+<script src="/js/plugins/fullcalendar/fullcalendar.min.js"></script>
+
+</body>
+</html>
