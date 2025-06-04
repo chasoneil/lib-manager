@@ -11,9 +11,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ServletComponentScan
 @MapperScan("com.chason.*.dao")
 @SpringBootApplication
-public class RweApplication {
+public class LibraryManagerApplication {
     public static void main(String[] args) {
-        SpringApplication.run(RweApplication.class, args);
+        SpringApplication.run(LibraryManagerApplication.class, args);
         System.out.println("ヾ(◍°∇°◍)ﾉﾞ   图书管理系统启动成功     ヾ(◍°∇°◍)ﾉﾞ\n");
     }
 }

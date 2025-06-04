@@ -1,9 +1,9 @@
-export JAVA_HOME=/home/jdk1.8.0_111
+export JAVA_HOME=/home/jdk11
 export PATH=$JAVA_HOME/bin:$PATH
 export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
 
 Port=8087
-JarName=rtmdo-1.5.0.jar-8087.jar
+JarName=lib-manager-1.0.0.jar
 LogsPatch=./logs_$Port
 
 
